@@ -57,3 +57,9 @@ void printArray(const vector<int> &arr){
   }
   cout<<"]"<<endl;
 }
+
+
+// Program description:
+// This program removes duplicates from an array using two different methods:
+// 1. By using an additional array to store unique elements.
+// 2. By modifying the original array in place, marking duplicates with -1.
