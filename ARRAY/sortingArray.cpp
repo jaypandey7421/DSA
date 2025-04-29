@@ -3,6 +3,7 @@ using namespace std;
 
 void bubbleSort(int arr[], int size);
 void selectionSort(int arr[], int size);
+void insertionSort(int arr[], int size);
 void printArray(int arr[], int size);
 
 int main(){
@@ -12,7 +13,8 @@ int main(){
   
   printArray(elements, size);
   // bubbleSort(elements, size);
-  selectionSort(elements, size);
+  //selectionSort(elements, size);
+  insertionSort(elements, size);
   printArray(elements, size);
   
   return 0;
@@ -27,6 +29,8 @@ void printArray(int arr[], int size){
 }
 
 void bubbleSort(int arr[], int size){
+  cout<<"Bubble Sort"<<endl;
+
   for(int i=0; i<size-1; i++){
     int isSorted = 0;
     for(int j=0; j<size-i-1; j++){
@@ -42,6 +46,7 @@ void bubbleSort(int arr[], int size){
 }
 
 void selectionSort(int arr[], int size){
+  cout<<"Selection Sort"<<endl;
   
   for(int i=0; i<size-1; i++){
     int minimum = i;
@@ -56,6 +61,23 @@ void selectionSort(int arr[], int size){
       arr[i] = temp;
     }
     
+  }
+}
+
+void insertionSort(int arr[], int size){
+  cout<<"Insertion Sort"<<endl;
+
+  for(int i= 1; i<size; i++){
+    int insertIdx = i;
+    int key = arr[i];
+    
+    for(int j= i-1; j>=0; j--){
+      if(key < arr[j]){
+        arr[j+1] = arr[j];
+        insertIdx = j;
+      }else break;
+    }
+    arr[insertIdx] = key;
   }
 }
 
