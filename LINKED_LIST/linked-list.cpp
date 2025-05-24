@@ -3,123 +3,114 @@ using namespace std;
 
 class Node{
   public:
-    int val;
+    int data;
     Node* next;
     
-    Node(int data){
-      val = data;
-      next = NULL;
+    Node(int val){
+      data = val;
+      next = nullptr;
     }
 };
 
 class LinkedList{
   private:
     Node* head;
-    
   public:
-    
     LinkedList(){
-      head = NULL;
+      head = nullptr;
+    }
+    LinkedList(int data){
+      Node* newNode = new Node(data);
+      head = newNode;
     }
     
-    void insertAtBeginning(int data);
+    void printList();
+    void insertAtEnd(int val);
+    void insertAtBeginning(int val);
+    void insertAtAny(int val, int pos);
     
-    void insertAtEnd(int data);
-    
-    void insertAtPosition(int data, int pos);
-    
-    void printLinkedList();
-    
-    // Destructor to free memory
     ~LinkedList(){
-      Node* temp;
-      while(head != NULL){
-        temp = head;
-        head = head->next;
-        delete temp;
+      Node* current = head;
+      while(current != nullptr){
+        Node* nextNode = current->next;
+        delete current;
+        current = nextNode;
       }
     }
 };
 
 int main(){
-  LinkedList list;
+  LinkedList list_1;
+  list_1.insertAtBeginning(19);
+  list_1.insertAtEnd(32);
+  list_1.insertAtBeginning(97);
+  list_1.printList();
   
-  list.printLinkedList();
-  list.insertAtEnd(5);
-  list.printLinkedList();
-  list.insertAtBeginning(10);
-  list.printLinkedList();
-  list.insertAtBeginning(6);
-  list.printLinkedList();
-  list.insertAtBeginning(12);
-  list.printLinkedList();
-  list.insertAtBeginning(24);
-  list.printLinkedList();
-  list.insertAtEnd(1);
-  list.printLinkedList();
-  list.insertAtEnd(23);
-  list.printLinkedList();
-  list.insertAtPosition(2, 8);
-  list.printLinkedList();
+  LinkedList list_2(3);
+  list_2.printList();
+  list_2.insertAtEnd(5);
+  list_2.insertAtEnd(7);
+  list_2.insertAtBeginning(10);
+  list_2.insertAtAny(11,5);
+  list_2.printList();
   
   return 0;
 }
 
-void LinkedList::insertAtBeginning(int data){
-  Node* new_node = new Node(data);
-      new_node->next = head;
-      head = new_node;
-}
-
-void LinkedList::insertAtEnd(int data){
-  Node *temp = head;
-  Node* new_node = new Node(data);
-  
-  if(temp == NULL){
-    head = new_node;
+void LinkedList::insertAtAny(int val, int pos){
+  if(pos == 1){
+    insertAtBeginning(val);
+    return;
+  }
+  if(pos <1){
+    cout<<"Index starts from 1."<<endl;
     return;
   }
   
-  while(temp->next != NULL){
+  Node* temp = head;
+  int count =1;
+  while(temp != nullptr && count < pos-1){
     temp = temp->next;
+    count++;
   }
   
-  temp->next = new_node;
-}
-
-void LinkedList::insertAtPosition(int data, int pos){
-  Node *temp = head;
-  int trac = 0;
-  
-  if(pos < 0){
-    cout<<"INVALID POSITION!"<<endl;
+  if( temp == nullptr){
+    cout<<"out of bound"<<endl;
     return;
   }
-  
-  if(pos == 0){
-    insertAtBeginning(data);
-    return;
-  }
-  
-  while((trac < pos-1) && (temp != NULL)){
-    trac++;
-    temp = temp->next;
-  }
-
-  if(trac < pos && temp!= NULL){
-    Node *new_node = new Node(data);
-    new_node->next = temp->next;
-    temp->next = new_node;
-  }
-  
-  if(temp == NULL) cout<<"INVALID POSITION!"<<endl;
+  Node* newNode = new Node(val);
+  newNode->next = temp->next;
+  temp->next = newNode;
 }
 
-void LinkedList::printLinkedList(){
-  Node *temp = head;
-  while(temp != NULL){
-    cout<<temp->val<<" -> ";
+void LinkedList::insertAtBeginning(int val){
+  Node *newNode = new Node(val);
+  newNode->next = head;
+  head = newNode;
+}
+
+void LinkedList::printList(){
+  Node* temp = head;
+  while(temp != nullptr){
+    cout<<temp->data;
+    cout<<" -> ";
     temp = temp->next;
   }
   cout<<"NULL"<<endl;
+}
+
+void LinkedList::insertAtEnd(int val){
+    Node* newNode = new Node(val);
+    
+  if(head == nullptr){
+    head = newNode;
+    return;
+  }
+  
+  Node* temp = head;
+  while(temp->next != nullptr){
+    temp = temp->next;
+  }
+  
+  temp->next = newNode;
 }
